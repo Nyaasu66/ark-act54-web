@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#04070a" />
+    <title>ACT54SIDE · Unity Entry Animation</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="stage-scaler" aria-label="ACT54SIDE 开场动画，逻辑分辨率 1920 × 1080">
+      <div id="stage"></div>
+    </main>
+
+    <div id="loading" role="status">正在载入 ACT54SIDE 动画资源…</div>
+
+    <section id="controls" aria-label="动画控制">
+      <button id="replay" type="button" title="重播（R）">重播</button>
+      <button id="frame-back" type="button" title="上一帧（←）">−1</button>
+      <button id="play" type="button" title="播放或暂停（空格）">播放</button>
+      <button id="frame-forward" type="button" title="下一帧（→）">+1</button>
+      <input id="timeline" type="range" min="0" value="0" aria-label="动画帧" />
+      <output id="time-label">000 / 390 · 0.00s</output>
+    </section>
+
+    <svg id="tint-svg" aria-hidden="true">
+      <defs id="tint-filters"></defs>
+    </svg>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
