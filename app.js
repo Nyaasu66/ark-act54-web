@@ -17,6 +17,45 @@ const audioButton = document.querySelector("#audio-toggle");
 const query = new URLSearchParams(location.search);
 const REFERENCE_VIEWPORT = [1280, 720];
 const OUTPUT_SCALE = sceneData.viewport[0] / REFERENCE_VIEWPORT[0];
+const CONTROLS_IDLE_DELAY_MS = 3000;
+let controlsIdleTimer = 0;
+const activePointers = new Set();
+
+function hideControls() {
+  clearTimeout(controlsIdleTimer);
+  controls.classList.add("is-hidden");
+  audioButton.classList.add("is-hidden");
+}
+
+function showControls() {
+  clearTimeout(controlsIdleTimer);
+  controls.classList.remove("is-hidden");
+  audioButton.classList.remove("is-hidden");
+  // 拖动时间轴或长按屏幕期间不隐藏；松开后重新计时。
+  if (activePointers.size === 0) {
+    controlsIdleTimer = setTimeout(hideControls, CONTROLS_IDLE_DELAY_MS);
+  }
+}
+
+addEventListener("pointermove", showControls, { passive: true });
+addEventListener("pointerdown", (event) => {
+  activePointers.add(event.pointerId);
+  showControls();
+}, { passive: true });
+for (const type of ["pointerup", "pointercancel"]) {
+  addEventListener(type, (event) => {
+    activePointers.delete(event.pointerId);
+    showControls();
+  }, { passive: true });
+}
+addEventListener("click", showControls);
+addEventListener("focusin", showControls);
+addEventListener("blur", () => activePointers.clear());
+document.addEventListener("visibilitychange", () => {
+  activePointers.clear();
+  if (!document.hidden) showControls();
+  else clearTimeout(controlsIdleTimer);
+});
 
 const nodes = new Map();
 const imagePromises = [];
@@ -31,7 +70,7 @@ const audio = new AudioTimeline({ onChange: updateAudioButton });
 function updateAudioButton() {
   audioButton.textContent = !audio.enabled ? "解除静音"
     : audio.error ? "重试声音"
-    : !audio.audible ? "点击开启声音"
+    : !audio.audible ? "解除静音"
     : !audio.buffers ? "声音加载中…" : "静音";
   audioButton.setAttribute("aria-pressed", String(audio.audible));
   audioButton.title = audio.error ? audio.error.message : "音效 0.5s、背景音乐 1s 开始，可重叠播放";
@@ -793,6 +832,11 @@ addEventListener("orientationchange", fitStage);
 window.visualViewport?.addEventListener("resize", fitStage);
 window.visualViewport?.addEventListener("scroll", fitStage);
 addEventListener("keydown", (event) => {
+  if (event.key.toLowerCase() === "h") {
+    controls.classList.contains("is-hidden") ? showControls() : hideControls();
+    return;
+  }
+  showControls();
   if (event.code === "Space") {
     event.preventDefault();
     playing || audio.playing ? pause() : play();
@@ -801,7 +845,7 @@ addEventListener("keydown", (event) => {
   else if (event.key.toLowerCase() === "r") {
     currentTime = 0;
     play();
-  } else if (event.key.toLowerCase() === "h") controls.classList.toggle("is-hidden");
+  }
 });
 
 fitStage();
@@ -836,6 +880,7 @@ try {
 
 Promise.all(imagePromises).finally(() => {
   loading.classList.add("is-ready");
+  showControls();
   setTimeout(() => loading.remove(), 450);
   if (query.get("autoplay") !== "0") play();
 });

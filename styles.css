@@ -197,6 +197,18 @@ input {
   color: #d9edf7;
   background: rgb(4 11 16 / 85%);
   backdrop-filter: blur(14px);
+  opacity: 0.55;
+  transition: opacity 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+#audio-toggle:hover,
+#audio-toggle:focus {
+  opacity: 1;
+}
+
+#audio-toggle.is-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 #timeline {
