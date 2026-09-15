@@ -55,6 +55,7 @@ input {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .unity-sprite {
@@ -66,6 +67,19 @@ input {
 }
 
 .unity-sprite[hidden] {
+  display: none;
+}
+
+.unity-tint {
+  position: absolute;
+  display: block;
+  max-width: none;
+  max-height: none;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.unity-tint[hidden] {
   display: none;
 }
 
@@ -83,7 +97,9 @@ input {
 }
 
 .is-round,
-.is-round > .unity-graphic {
+.is-round > .unity-graphic,
+.is-material-circle,
+.is-material-circle > .unity-graphic {
   border-radius: 50%;
 }
 
@@ -166,10 +182,68 @@ input {
   text-align: right;
 }
 
-#tint-svg {
+#reference-hud {
   position: absolute;
-  width: 0;
-  height: 0;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reference-topmenu {
+  position: absolute;
+  left: 24px;
+  top: 20px;
+  display: flex;
+  width: 536px;
+  height: 76px;
+  background: rgb(26 28 28 / 86%);
+  box-shadow: 0 0 12px rgb(0 0 0 / 25%);
+}
+
+.reference-topmenu span {
+  display: grid;
+  place-items: center;
+}
+
+.reference-back {
+  width: 220px;
+  border-right: 4px solid rgb(0 0 0 / 48%);
+}
+
+.reference-home {
+  width: 316px;
+}
+
+.reference-topmenu svg {
+  width: 44px;
+  height: 48px;
+  fill: none;
+  stroke: #eee;
+  stroke-width: 4;
+  stroke-linejoin: miter;
+}
+
+.reference-shop-count {
+  position: absolute;
+  left: 1634px;
+  top: 98px;
+  color: #111;
+  font: 700 24px Arial, sans-serif;
+}
+
+.reference-event-time {
+  position: absolute;
+  left: 36px;
+  bottom: 18px;
+  color: white;
+  font-size: 20px;
+  text-shadow: 0 1px 2px #111;
+}
+
+.reference-event-time em {
+  color: #daff48;
+  font-style: normal;
 }
 
 @media (max-width: 740px) {

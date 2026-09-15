@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#04070a" />
     <title>ACT54SIDE · Unity Entry Animation</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=video-alignment-2" />
   </head>
   <body>
     <main id="stage-scaler" aria-label="ACT54SIDE 开场动画，逻辑分辨率 1920 × 1080">
       <div id="stage"></div>
+      <div id="reference-hud" aria-hidden="true">
+        <div class="reference-topmenu">
+          <span class="reference-back"><svg viewBox="0 0 40 52"><path d="M30 5 9 26 30 47"/></svg></span>
+          <span class="reference-home"><svg viewBox="0 0 52 48"><path d="m4 23 22-19 22 19M12 20v23h10V31h8v12h10V20"/></svg></span>
+        </div>
+        <span class="reference-shop-count">33</span>
+        <span class="reference-event-time">作战结束时间 2026/09/18 03:59 <em>剩余3天</em></span>
+      </div>
     </main>
 
     <div id="loading" role="status">正在载入 ACT54SIDE 动画资源…</div>
@@ -23,10 +31,6 @@
       <output id="time-label">000 / 390 · 0.00s</output>
     </section>
 
-    <svg id="tint-svg" aria-hidden="true">
-      <defs id="tint-filters"></defs>
-    </svg>
-
-    <script type="module" src="./app.js"></script>
+    <script type="module" src="./app.js?v=video-alignment-4"></script>
   </body>
 </html>
