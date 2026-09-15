@@ -4,19 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#04070a" />
-    <title>ACT54SIDE · Unity Entry Animation</title>
-    <link rel="stylesheet" href="./styles.css?v=initial-hidden-1" />
+    <title>「月行水上」开场动画复刻</title>
+    <meta name="description" content="使用 HTML、JavaScript 和 CSS 复刻《明日方舟》ACT54SIDE「月行水上」开场动画，基于 Unity 解包场景、贴图与 60 Hz 动画曲线，支持时间轴控制、移动端横竖屏适配及音效与背景音乐。非官方页面，仅用于动画复刻与前端实现研究。" />
+    <link rel="canonical" href="https://act54.nyaasu.top/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="「月行水上」开场动画复刻" />
+    <meta property="og:title" content="《明日方舟》「月行水上」开场动画复刻" />
+    <meta property="og:description" content="使用 HTML、JavaScript 和 CSS 复刻《明日方舟》ACT54SIDE「月行水上」开场动画，基于 Unity 解包场景、贴图与 60 Hz 动画曲线，支持时间轴控制、移动端横竖屏适配及音效与背景音乐。非官方页面，仅用于动画复刻与前端实现研究。" />
+    <meta property="og:url" content="https://act54.nyaasu.top/" />
+    <link rel="stylesheet" href="./styles.css?v=github-link-1" />
   </head>
   <body>
     <main id="stage-scaler" aria-label="ACT54SIDE 开场动画，逻辑分辨率 1920 × 1080">
       <div id="stage"></div>
-      <div id="reference-hud" aria-hidden="true">
+      <div id="reference-hud" inert>
         <div class="reference-topmenu">
-          <span class="reference-back"><svg viewBox="0 0 40 52"><path d="M30 5 9 26 30 47"/></svg></span>
-          <span class="reference-home"><svg viewBox="0 0 52 48"><path d="m4 23 22-19 22 19M12 20v23h10V31h8v12h10V20"/></svg></span>
+          <span class="reference-back" aria-hidden="true"><svg viewBox="0 0 40 52"><path d="M30 5 9 26 30 47"/></svg></span>
+          <a class="reference-github" href="https://github.com/Nyaasu66/ark-act54-web" target="_blank" rel="noopener noreferrer" aria-label="GitHub 仓库（在新窗口打开）" title="查看 GitHub 仓库">
+            <svg data-component="Octicon" aria-hidden="true" focusable="false" class="octicon octicon-mark-github" viewBox="0 0 24 24" width="32" height="32" fill="currentColor" display="inline-block" overflow="visible" style="vertical-align:text-bottom"><path d="M10.226 17.284c-2.965-.36-5.054-2.493-5.054-5.256 0-1.123.404-2.336 1.078-3.144-.292-.741-.247-2.314.09-2.965.898-.112 2.111.36 2.83 1.01.853-.269 1.752-.404 2.853-.404 1.1 0 1.999.135 2.807.382.696-.629 1.932-1.1 2.83-.988.315.606.36 2.179.067 2.942.72.854 1.101 2 1.101 3.167 0 2.763-2.089 4.852-5.098 5.234.763.494 1.28 1.572 1.28 2.807v2.336c0 .674.561 1.056 1.235.786 4.066-1.55 7.255-5.615 7.255-10.646C23.5 6.188 18.334 1 11.978 1 5.62 1 .5 6.188.5 12.545c0 4.986 3.167 9.12 7.435 10.669.606.225 1.19-.18 1.19-.786V20.63a2.9 2.9 0 0 1-1.078.224c-1.483 0-2.359-.808-2.987-2.313-.247-.607-.517-.966-1.034-1.033-.27-.023-.359-.135-.359-.27 0-.27.45-.471.898-.471.652 0 1.213.404 1.797 1.235.45.651.921.943 1.483.943.561 0 .92-.202 1.437-.719.382-.381.674-.718.944-.943"></path></svg>
+          </a>
         </div>
-        <span class="reference-shop-count">33</span>
-        <span class="reference-event-time">作战结束时间 2026/09/18 03:59 <em>剩余3天</em></span>
+        <span class="reference-shop-count" aria-hidden="true">33</span>
+        <span class="reference-event-time" aria-hidden="true">作战结束时间 2026/09/18 03:59 <em>剩余3天</em></span>
       </div>
     </main>
 
@@ -32,6 +42,6 @@
       <output id="time-label">000 / 390 · 0.00s</output>
     </section>
 
-    <script type="module" src="./app.js?v=initial-hidden-1"></script>
+    <script type="module" src="./app.js?v=github-link-1"></script>
   </body>
 </html>

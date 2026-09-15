@@ -736,7 +736,9 @@ function render(time) {
 
   layoutNode(nodes.get(""), { width: REFERENCE_VIEWPORT[0], height: REFERENCE_VIEWPORT[1] });
   applyStencils();
-  referenceHud.style.opacity = String(Math.max(0, Math.min(1, (currentTime - 3.9) / 0.25)));
+  const hudOpacity = Math.max(0, Math.min(1, (currentTime - 3.9) / 0.25));
+  referenceHud.style.opacity = String(hudOpacity);
+  referenceHud.inert = hudOpacity === 0;
   const frame = Math.round(currentTime * sceneData.frameRate);
   timeline.value = String(frame);
   timeLabel.textContent = `${frame.toString().padStart(3, "0")} / ${sceneData.frameCount} · ${currentTime.toFixed(2)}s`;

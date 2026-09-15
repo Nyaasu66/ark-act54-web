@@ -1,4 +1,4 @@
-# ACT54SIDE 开场动画复刻
+# 《明日方舟》「月行水上」 开场动画复刻
 
 使用 HTML、JavaScript 和 CSS 在浏览器中复刻《明日方舟》ACT54SIDE 的开场动画。项目基于 Unity AssetBundle 解包得到的场景、贴图与动画曲线，并结合原版录屏校准布局、遮罩和图层效果，无需 Unity 或前端构建工具。
 
@@ -61,6 +61,10 @@ export const INTRO_MUSIC_START_SECONDS = 1;
 ```
 
 图片保留解包时的原始文件名，便于对应场景数据；静态素材均放在 `assets/` 下。
+
+## P.S.:
+
+还有一个纯 CSS 版，但效果不佳 [https://works.nyaasu.top/2026/ak-act54-2/](https://works.nyaasu.top/2026/ak-act54-2/)
 
 ## 说明
 

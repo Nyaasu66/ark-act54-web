@@ -256,8 +256,23 @@ input {
   border-right: 4px solid rgb(0 0 0 / 48%);
 }
 
-.reference-home {
+.reference-github {
+  display: grid;
+  place-items: center;
   width: 316px;
+  color: #eee;
+  text-decoration: none;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.reference-github:hover {
+  background: rgb(255 255 255 / 8%);
+}
+
+.reference-github:focus-visible {
+  outline: 3px solid #8bcde6;
+  outline-offset: -6px;
 }
 
 .reference-topmenu svg {
@@ -267,6 +282,13 @@ input {
   stroke: #eee;
   stroke-width: 4;
   stroke-linejoin: miter;
+}
+
+.reference-topmenu .reference-github svg {
+  width: 44px;
+  height: 44px;
+  fill: currentColor;
+  stroke: none;
 }
 
 .reference-shop-count {
