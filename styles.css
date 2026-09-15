@@ -8,6 +8,11 @@
   box-sizing: border-box;
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 html,
 body {
   width: 100%;
@@ -24,7 +29,8 @@ input {
 
 #stage-scaler {
   --stage-scale: 1;
-  position: absolute;
+  --stage-rotation: 0deg;
+  position: fixed;
   left: 50%;
   top: 50%;
   width: 1920px;
@@ -32,7 +38,7 @@ input {
   margin: -540px 0 0 -960px;
   overflow: hidden;
   background: #03070a;
-  transform: scale(var(--stage-scale));
+  transform: rotate(var(--stage-rotation)) scale(var(--stage-scale));
   transform-origin: 50% 50%;
 }
 
@@ -129,12 +135,14 @@ input {
 }
 
 #controls {
+  --controls-inset: max(12px, env(safe-area-inset-bottom, 0px));
   position: fixed;
   z-index: 30;
-  left: 50%;
-  bottom: 18px;
+  left: var(--viewport-center-x, 50%);
+  top: var(--viewport-bottom, 100%);
+  width: min(960px, calc(var(--viewport-width, 100vw) - 24px));
   display: grid;
-  grid-template-columns: auto auto auto auto minmax(240px, 36vw) auto;
+  grid-template-columns: repeat(4, auto) minmax(0, 1fr) auto;
   gap: 8px;
   align-items: center;
   padding: 8px;
@@ -144,26 +152,32 @@ input {
   background: rgb(4 11 16 / 78%);
   box-shadow: 0 12px 40px rgb(0 0 0 / 35%);
   backdrop-filter: blur(14px);
-  transform: translateX(-50%);
+  transform: translate(-50%, calc(-100% - var(--controls-inset)));
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
 #controls.is-hidden {
   opacity: 0;
-  transform: translate(-50%, 16px);
+  transform: translate(-50%, calc(-100% - var(--controls-inset) + 16px));
   pointer-events: none;
 }
 
 #controls button {
-  min-width: 42px;
-  height: 32px;
-  padding: 0 10px;
+  display: grid;
+  place-items: center;
+  min-width: 48px;
+  min-height: 40px;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.2;
+  text-align: center;
   color: inherit;
   border: 1px solid rgb(180 225 245 / 18%);
   border-radius: 6px;
   background: rgb(126 190 216 / 9%);
   cursor: pointer;
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 #controls button:hover {
@@ -172,14 +186,19 @@ input {
 }
 
 #timeline {
+  width: 100%;
+  min-width: 0;
+  height: 32px;
+  margin: 0;
   accent-color: #8bcde6;
 }
 
 #time-label {
-  min-width: 128px;
+  min-width: 0;
   color: rgb(217 237 247 / 74%);
   font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   text-align: right;
+  white-space: nowrap;
 }
 
 #reference-hud {
@@ -246,13 +265,26 @@ input {
   font-style: normal;
 }
 
-@media (max-width: 740px) {
+@media (max-width: 600px) and (orientation: portrait) {
   #controls {
-    grid-template-columns: repeat(4, auto) minmax(120px, 1fr);
-    width: calc(100vw - 20px);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px 8px;
+  }
+
+  #controls button {
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 6px;
+  }
+
+  #timeline {
+    grid-column: 1 / -1;
+    height: 24px;
   }
 
   #time-label {
-    display: none;
+    grid-column: 1 / -1;
+    font-size: 11px;
+    text-align: center;
   }
 }

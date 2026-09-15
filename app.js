@@ -729,8 +729,25 @@ function setFrame(frame) {
 }
 
 function fitStage() {
-  const scale = Math.min(innerWidth / sceneData.viewport[0], innerHeight / sceneData.viewport[1]);
+  const viewport = window.visualViewport;
+  const width = viewport?.width ?? innerWidth;
+  const height = viewport?.height ?? innerHeight;
+  const offsetLeft = viewport?.offsetLeft ?? 0;
+  const offsetTop = viewport?.offsetTop ?? 0;
+  const portrait = height > width;
+  const [sceneWidth, sceneHeight] = sceneData.viewport;
+  const scale = portrait
+    ? Math.min(width / sceneHeight, height / sceneWidth)
+    : Math.min(width / sceneWidth, height / sceneHeight);
+
+  document.documentElement.style.setProperty("--viewport-width", `${width}px`);
+  document.documentElement.style.setProperty("--viewport-center-x", `${offsetLeft + width / 2}px`);
+  document.documentElement.style.setProperty("--viewport-bottom", `${offsetTop + height}px`);
   scaler.style.setProperty("--stage-scale", scale);
+  scaler.style.setProperty("--stage-rotation", portrait ? "90deg" : "0deg");
+  scaler.style.left = `${offsetLeft + width / 2}px`;
+  scaler.style.top = `${offsetTop + height / 2}px`;
+  scaler.dataset.orientation = portrait ? "portrait" : "landscape";
 }
 
 createNode(sceneData.root, stage);
@@ -746,6 +763,9 @@ replayButton.addEventListener("click", () => {
 frameBackButton.addEventListener("click", () => setFrame(Math.round(currentTime * 60) - 1));
 frameForwardButton.addEventListener("click", () => setFrame(Math.round(currentTime * 60) + 1));
 addEventListener("resize", fitStage);
+addEventListener("orientationchange", fitStage);
+window.visualViewport?.addEventListener("resize", fitStage);
+window.visualViewport?.addEventListener("scroll", fitStage);
 addEventListener("keydown", (event) => {
   if (event.code === "Space") {
     event.preventDefault();
