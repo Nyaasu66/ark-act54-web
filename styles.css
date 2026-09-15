@@ -162,7 +162,8 @@ input {
   pointer-events: none;
 }
 
-#controls button {
+#controls button,
+#audio-toggle {
   display: grid;
   place-items: center;
   min-width: 48px;
@@ -180,9 +181,22 @@ input {
   touch-action: manipulation;
 }
 
-#controls button:hover {
+#controls button:hover,
+#audio-toggle:hover {
   border-color: rgb(180 225 245 / 42%);
   background: rgb(126 190 216 / 18%);
+}
+
+#audio-toggle {
+  position: fixed;
+  z-index: 30;
+  left: calc(var(--viewport-center-x, 50vw) + var(--viewport-width, 100vw) / 2 - max(12px, env(safe-area-inset-right, 0px)));
+  top: max(12px, env(safe-area-inset-top, 0px));
+  transform: translateX(-100%);
+  min-height: 44px;
+  color: #d9edf7;
+  background: rgb(4 11 16 / 85%);
+  backdrop-filter: blur(14px);
 }
 
 #timeline {

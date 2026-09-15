@@ -1,5 +1,6 @@
 import { sceneData } from "./scene-data.js";
 import { evaluateScalar, evaluateVector, quaternionZDegrees } from "./curve-runtime.js";
+import { AudioTimeline, AUDIO_PREFERENCE_KEY } from "./audio-timeline.js";
 
 const stage = document.querySelector("#stage");
 const scaler = document.querySelector("#stage-scaler");
@@ -12,6 +13,7 @@ const frameForwardButton = document.querySelector("#frame-forward");
 const timeline = document.querySelector("#timeline");
 const timeLabel = document.querySelector("#time-label");
 const referenceHud = document.querySelector("#reference-hud");
+const audioButton = document.querySelector("#audio-toggle");
 const query = new URLSearchParams(location.search);
 const REFERENCE_VIEWPORT = [1280, 720];
 const OUTPUT_SCALE = sceneData.viewport[0] / REFERENCE_VIEWPORT[0];
@@ -24,6 +26,25 @@ let playing = false;
 let startedAt = 0;
 let animationFrame = 0;
 let loop = query.get("loop") === "1";
+const audio = new AudioTimeline({ onChange: updateAudioButton });
+
+function updateAudioButton() {
+  audioButton.textContent = !audio.enabled ? "解除静音"
+    : audio.error ? "重试声音"
+    : !audio.audible ? "点击开启声音"
+    : !audio.buffers ? "声音加载中…" : "静音";
+  audioButton.setAttribute("aria-pressed", String(audio.audible));
+  audioButton.title = audio.error ? audio.error.message : "音效 0.5s、背景音乐 1s 开始，可重叠播放";
+  updatePlayButton();
+}
+
+audioButton.addEventListener("click", () => {
+  if (audio.enabled && audio.audible && !audio.error) audio.disable();
+  else audio.enable();
+  try {
+    localStorage.setItem(AUDIO_PREFERENCE_KEY, String(audio.enabled));
+  } catch { /* 存储不可用时，本次页面仍然可以开启声音。 */ }
+});
 
 const CIRCLE_MATERIAL_PATHS = new Set([
   "panel_front_ui/group_left/btn_card/bg",
@@ -689,6 +710,7 @@ function tick(now) {
     if (loop) {
       startedAt = now;
       time = 0;
+      audio.play(0);
     } else {
       time = sceneData.duration;
       playing = false;
@@ -700,14 +722,16 @@ function tick(now) {
 }
 
 function updatePlayButton() {
-  playButton.textContent = playing ? "暂停" : "播放";
-  playButton.setAttribute("aria-label", playing ? "暂停动画" : "播放动画");
+  const active = playing || audio.playing;
+  playButton.textContent = active ? "暂停" : "播放";
+  playButton.setAttribute("aria-label", active ? "暂停动画与音频" : "播放动画与音频");
 }
 
 function play() {
   if (currentTime >= sceneData.duration) currentTime = 0;
   playing = true;
   startedAt = performance.now() - currentTime * 1000;
+  audio.play(currentTime);
   cancelAnimationFrame(animationFrame);
   animationFrame = requestAnimationFrame(tick);
   updatePlayButton();
@@ -716,12 +740,14 @@ function play() {
 function pause() {
   playing = false;
   cancelAnimationFrame(animationFrame);
+  audio.pause();
   updatePlayButton();
 }
 
 function seek(time) {
   pause();
   render(time);
+  audio.seek(currentTime);
 }
 
 function setFrame(frame) {
@@ -754,7 +780,7 @@ createNode(sceneData.root, stage);
 timeline.max = String(sceneData.frameCount);
 timeline.step = "1";
 timeline.addEventListener("input", () => setFrame(Number(timeline.value)));
-playButton.addEventListener("click", () => (playing ? pause() : play()));
+playButton.addEventListener("click", () => (playing || audio.playing ? pause() : play()));
 replayButton.addEventListener("click", () => {
   currentTime = 0;
   render(0);
@@ -769,7 +795,7 @@ window.visualViewport?.addEventListener("scroll", fitStage);
 addEventListener("keydown", (event) => {
   if (event.code === "Space") {
     event.preventDefault();
-    playing ? pause() : play();
+    playing || audio.playing ? pause() : play();
   } else if (event.key === "ArrowLeft") setFrame(Math.round(currentTime * 60) - 1);
   else if (event.key === "ArrowRight") setFrame(Math.round(currentTime * 60) + 1);
   else if (event.key.toLowerCase() === "r") {
@@ -796,9 +822,17 @@ window.act54Animation = {
       frame: Math.round(currentTime * sceneData.frameRate),
       playing,
       loop,
+      audioEnabled: audio.enabled,
+      audioBlocked: audio.enabled && !audio.audible,
+      audioTime: audio.time,
     };
   },
 };
+
+updateAudioButton();
+try {
+  if (localStorage.getItem(AUDIO_PREFERENCE_KEY) === "true") audio.enable();
+} catch { /* 首次进入或存储不可用时，不创建音频上下文，也不请求音频。 */ }
 
 Promise.all(imagePromises).finally(() => {
   loading.classList.add("is-ready");
