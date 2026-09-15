@@ -1,5 +1,5 @@
 // 相对于动画起点的秒数；两条音轨独立调度，允许重叠。
-export const LOAD_SOUND_START_SECONDS = 0.5;
+export const LOAD_SOUND_START_SECONDS = 0;
 export const INTRO_MUSIC_START_SECONDS = 1;
 export const AUDIO_TRACKS = [
   { url: "./assets/audio/act54side_g_ui_load.m4a", start: LOAD_SOUND_START_SECONDS },
