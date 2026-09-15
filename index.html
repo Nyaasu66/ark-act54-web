@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#04070a" />
     <title>ACT54SIDE · Unity Entry Animation</title>
-    <link rel="stylesheet" href="./styles.css?v=assets-layout-1" />
+    <link rel="stylesheet" href="./styles.css?v=initial-hidden-1" />
   </head>
   <body>
     <main id="stage-scaler" aria-label="ACT54SIDE 开场动画，逻辑分辨率 1920 × 1080">
@@ -21,9 +21,9 @@
     </main>
 
     <div id="loading" role="status">正在载入 ACT54SIDE 动画资源…</div>
-    <button id="audio-toggle" type="button" aria-pressed="false">解除静音</button>
+    <button id="audio-toggle" class="is-hidden" type="button" aria-pressed="false">解除静音</button>
 
-    <section id="controls" aria-label="动画控制">
+    <section id="controls" class="is-hidden" aria-label="动画控制">
       <button id="replay" type="button" title="重播（R）">重播</button>
       <button id="frame-back" type="button" title="上一帧（←）">−1</button>
       <button id="play" type="button" title="播放或暂停（空格）">播放</button>
@@ -32,6 +32,6 @@
       <output id="time-label">000 / 390 · 0.00s</output>
     </section>
 
-    <script type="module" src="./app.js?v=assets-layout-1"></script>
+    <script type="module" src="./app.js?v=initial-hidden-1"></script>
   </body>
 </html>

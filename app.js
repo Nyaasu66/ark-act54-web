@@ -19,6 +19,7 @@ const REFERENCE_VIEWPORT = [1280, 720];
 const OUTPUT_SCALE = sceneData.viewport[0] / REFERENCE_VIEWPORT[0];
 const CONTROLS_IDLE_DELAY_MS = 3000;
 let controlsIdleTimer = 0;
+let hasControlsInteraction = false;
 const activePointers = new Set();
 
 function hideControls() {
@@ -28,6 +29,7 @@ function hideControls() {
 }
 
 function showControls() {
+  hasControlsInteraction = true;
   clearTimeout(controlsIdleTimer);
   controls.classList.remove("is-hidden");
   audioButton.classList.remove("is-hidden");
@@ -53,7 +55,7 @@ addEventListener("focusin", showControls);
 addEventListener("blur", () => activePointers.clear());
 document.addEventListener("visibilitychange", () => {
   activePointers.clear();
-  if (!document.hidden) showControls();
+  if (!document.hidden && hasControlsInteraction) showControls();
   else clearTimeout(controlsIdleTimer);
 });
 
@@ -880,7 +882,6 @@ try {
 
 Promise.all(imagePromises).finally(() => {
   loading.classList.add("is-ready");
-  showControls();
   setTimeout(() => loading.remove(), 450);
   if (query.get("autoplay") !== "0") play();
 });
