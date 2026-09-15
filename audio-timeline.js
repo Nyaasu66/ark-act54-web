@@ -2,8 +2,8 @@
 export const LOAD_SOUND_START_SECONDS = 0.5;
 export const INTRO_MUSIC_START_SECONDS = 1;
 export const AUDIO_TRACKS = [
-  { url: "./act54side_g_ui_load.m4a", start: LOAD_SOUND_START_SECONDS },
-  { url: "./m_sys_act54side_intro.m4a", start: INTRO_MUSIC_START_SECONDS },
+  { url: "./assets/audio/act54side_g_ui_load.m4a", start: LOAD_SOUND_START_SECONDS },
+  { url: "./assets/audio/m_sys_act54side_intro.m4a", start: INTRO_MUSIC_START_SECONDS },
 ];
 export const AUDIO_PREFERENCE_KEY = "act54side.audio-enabled";
 

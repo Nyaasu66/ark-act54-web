@@ -275,7 +275,7 @@ function createNode(node, parentElement) {
   if (/outline|round_wire|\bline\b/i.test(node.name)) element.classList.add("is-outline");
   if (/^title_main_glass/.test(node.name)) {
     element.classList.add("is-title-glass");
-    element.style.maskImage = `url("${encodeURI("[uc]act54side/title_main_mask.png")}")`;
+    element.style.maskImage = `url("${encodeURI("assets/images/title_main_mask.png")}")`;
     element.style.maskSize = "100% 100%";
     element.style.maskRepeat = "no-repeat";
   }
